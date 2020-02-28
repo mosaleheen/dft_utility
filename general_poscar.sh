@@ -30,7 +30,7 @@ sed -i '5G' POSCAR
 sed -i '6G' POSCAR
 sed -i '7 a Selective dynamics' POSCAR
 sed -i '8 a Direct' POSCAR
-
+path_to_potcar = "/home/sale666/POTCAR-PBE-5.3.5"
 for i in $@
 do
 species_i=`echo $i`
@@ -41,7 +41,7 @@ then
 sed -i "6 s/$/   $species_i/g" POSCAR
 sed -i "7 s/$/   $n_species/g" POSCAR
 grep " $species_i " *.cell | sed -e "s/ $species_i  //" -e "s/   /  /g" -e "s/$/   T   T   T/" | sort -k3 >> POSCAR
-cat /home/sale666/POTCAR-PBE-5.3.5/$species_i/POTCAR >> POTCAR             # Change you POTCAR Directory in here
+cat $path_to_potcar/$species_i/POTCAR >> POTCAR             # Change you POTCAR Directory in here
 else
 echo "$species_i do not exist"
 fi
