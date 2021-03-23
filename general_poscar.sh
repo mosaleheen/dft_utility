@@ -30,7 +30,7 @@ sed -i '5G' POSCAR
 sed -i '6G' POSCAR
 sed -i '7 a Selective dynamics' POSCAR
 sed -i '8 a Direct' POSCAR
-path_to_potcar = "/home/sale666/POTCAR-PBE-5.3.5"
+path_to_potcar = "/home/sale666/POTCAR-PBE-5.3.5"     # This directory path changes from machine to machine, just omit it in future.
 for i in $@
 do
 species_i=`echo $i`
