@@ -1,4 +1,4 @@
 ### Utility Scripts
-Various utility scripts for DFT calculations.
+Tiny utility scripts for making life easier.
 
 
