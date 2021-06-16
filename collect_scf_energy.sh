@@ -15,13 +15,17 @@ calc=`echo $1`
 if [[ $calc == "opt" ]]; then
     if [ -d $frequency_dir/ ]; then
 #	If OUTCAR file available
-	SCF=$(grep entropy= OUTCAR | tail -1 | rev | awk -F " " '{print $1}' | rev)
-
+	if [ -f OUTCAR ]; then
+		SCF=$(grep entropy= OUTCAR | tail -1 | rev | awk -F " " '{print $1}' | rev)
 # 	If OUTCAR file in not available and only OSZICAR file available
-#	energy=`grep E0 OSZICAR | tail -1 | awk -F "=" '{print $3}' | awk -F " " '{print $1}'`	
-#	Converting OSZICAR Sci notation to decimal number	
-#	SCF=`printf "%.13f" $energy`
-
+	elif [ -f OSZICAR ]; then
+		energy=`grep E0 OSZICAR | tail -1 | awk -F "=" '{print $3}' | awk -F " " '{print $1}'`	
+#		Converting OSZICAR Sci notation to decimal number	
+		SCF=`printf "%.13f" $energy`
+	else
+		echo "No energy file found"
+		exit 1
+	fi
 	echo $SCF >> ../SCF-Data
 	if [ -f $frequency_dir/freq.dat ]; then 
 		awk '{print $1}' $frequency_dir/freq.dat >> ../SCF-Data
@@ -32,13 +36,17 @@ if [[ $calc == "opt" ]]; then
 elif [[ $calc == "dimer" ]]; then
     if [ -d $frequency_dir/ ]; then
 #	If OUTCAR file available
-	SCF=$(grep entropy= OUTCAR | tail -1 | rev | awk -F " " '{print $1}' | rev)
-
+	if [ -f OUTCAR ]; then
+		SCF=$(grep entropy= OUTCAR | tail -1 | rev | awk -F " " '{print $1}' | rev)
 #	If OSZICAR file available
-#	energy=`grep E0 OSZICAR | tail -1 | awk -F "=" '{print $3}' | awk -F " " '{print $1}'`
-#       Converting OSZICAR Sci notation to decimal number  
-#	SCF=`printf "%.13f" $energy` 
-
+    	elif [ -f OSZICAR ]; then
+		energy=`grep E0 OSZICAR | tail -1 | awk -F "=" '{print $3}' | awk -F " " '{print $1}'`
+#       	Converting OSZICAR Sci notation to decimal number  
+		SCF=`printf "%.13f" $energy` 
+	else
+		echo "No energy file found"
+		exit 1
+	fi
 	echo $SCF >> ../SCF-Data
         if [ -f $frequency_dir/freq.dat ]; then 
         	cp $frequency_dir/freq.dat .
